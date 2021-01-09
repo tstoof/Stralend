@@ -13,8 +13,10 @@ gridline = []
 for row in range(rows):
     gridline.append(0)
 grid = []
+timeBurning = []
 for col in range(cols):
     grid.append(list(gridline))
+    timeBurning.append(list(gridline))
 
 
 # randomly assign new states to the cells, leaving the boundaries as zero
@@ -26,12 +28,13 @@ for row in range(rows):
 
 # start a fire in the right bottom corner
 grid[row-15][col-15] = 10
+timeBurning[row-15][col-15] = 1
 
 
-# show grid
-plt.imshow(grid, cmap="jet")
-plt.colorbar()
-plt.show()
+# # show grid
+# plt.imshow(grid, cmap="jet")
+# plt.colorbar()
+# plt.show()
 
 
 # states
@@ -58,6 +61,12 @@ V = 8 #m/s
 for t in range(time):
     for row in range(1,rows-1):
         for col in range(1,cols-1):
+
+            # keep track of how long a cell has been burning
+            if grid[row][col] == 10:
+                timeBurning[row][col] += 1
+
+            # allocate Pden and Pveg values depending on the state of a cell (see state list above)
             # sparse
             if grid[row][col] == 1:
                 Pden = -0.4
@@ -93,7 +102,7 @@ for t in range(time):
                 Pveg = 0.4
             
 
-            # compute Pburn
+            # compute Pburn for burning neighbour cells
             if grid[row+1][col-1] == 10:
                 theta = 135
                 ft = math.e**(V*c2*(math.cos(theta)-1))
@@ -143,7 +152,7 @@ for t in range(time):
                 Pburn_8 = Ph*(1+Pden)*(1+Pveg)*Pw
 
 
-            # Pburn = 0 if not burning
+            # Pburn = 0 if neighbour is not burning
             if grid[row+1][col-1] != 10:
                 Pburn_1 = 0 
 
@@ -170,13 +179,18 @@ for t in range(time):
 
         
             # compute chance of current cell catching fire
-            if (grid[row][col] != 0 or grid[row][col] != 10 or grid[row][col] != 11) and (np.random.uniform() < Pburn_1 or np.random.uniform() < Pburn_2 or np.random.uniform() < Pburn_3 or np.random.uniform() < Pburn_4 or np.random.uniform() < Pburn_5 or np.random.uniform() < Pburn_6 or np.random.uniform() < Pburn_7 or np.random.uniform() < Pburn_8):
-                grid[row][col] = 10                                            
+            if (grid[row][col] != 0 and  grid[row][col] != 10 and grid[row][col] != 11) and \
+                (np.random.uniform() < Pburn_1 or np.random.uniform() < Pburn_2 or np.random.uniform() < Pburn_3 or\
+                np.random.uniform() < Pburn_4 or np.random.uniform() < Pburn_5 or np.random.uniform() < Pburn_6 or \
+                np.random.uniform() < Pburn_7 or np.random.uniform() < Pburn_8):
+                
+                    grid[row][col] = 10   
+                    timeBurning[row][col] += 1                                        
 
-
-            # Chance of burning cell to stop burning
-            # NEEDS TO BE CHANGED
-            if grid[row][col] == 10 and np.random.uniform() < 0.05:
+            # after 4 timestep, turn burning cell to dead cell
+            # Want na 1 timestep zorgde ervoor dat het vuur echt snel doofde
+            # Hier moet dus nog naar worden gekeken
+            if timeBurning[row][col] == 5:
                 grid[row][col] = 11
 
 plt.figure()
