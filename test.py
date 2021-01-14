@@ -17,6 +17,7 @@ import math
 # 10 Burning		
 # 11 Empty		
 # 12 Burnt	
+# 13 fireline 
 
 grid = [
     [0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -87,6 +88,7 @@ grid = [
 ]
 
 # set fire 
+grid[60][30] = 10
 grid[60][32] = 10
 
 # model parameters
@@ -103,6 +105,8 @@ timeBurning = []
 for col in range(rows):
     timeBurning.append(list(gridline))
 
+# 1 is temporare fireline and 2 is the constructed fireline 
+typeOfFireline = 1
 
 # constants
 Ph = 0.58 #s/m
@@ -112,21 +116,57 @@ V = 8 #m/s
 
 row_list = []
 col_list = []
+list_original_values = []
 
 for t in range(time):
-    if t == 5:
+
+    # if chosen for temporary fire lines, at the 5th day the temporary fire lines will be placed (air bombing of water)
+    if t == 5 and typeOfFireline == 1:
         for row in range(1,rows - 1):
             for col in range(1, cols - 1):
+                # checking where the fire propogation front is (where the cells are burning (state 10))
                 if grid[row][col] == 10:
+                    # saving the rows/columns where the propogation front is
                     row_list.append(row)
                     col_list.append(col)
 
-        smallest_row = min(row_list)
-        smallest_width = min(col_list)
-        highest_width = max(col_list)
-        for row in range(smallest_row , smallest_row + 1):
-            for col in range(smallest_width - 3, highest_width + 5):
-                grid[row][col] = 13
+        # checking whether there is a propogation front at all
+        if len(row_list) > 0 and len(col_list) > 0:
+            # the smallest value of the row_list, is the most Northern place of the propogation front
+            smallest_row = min(row_list)
+
+            # the width of the propogation front is the minimum and the maximum of col_list
+            smallest_width = min(col_list)
+            highest_width = max(col_list)
+
+            # creating the temporary fire line 
+            for row in range(smallest_row - 1, smallest_row):
+                for col in range(smallest_width - 3, highest_width +3 ):
+                    # list to store the original states of the cells in 
+                    list_original_values.append(grid[row][col])
+                    # changing the state of the cells in state 13, which is the fire line state (which can not be burned)
+                    grid[row][col] = 13
+    
+    # x is a variable to keep track of the index for the following for loop
+    x = 0
+    # at the 8th day, the temporary fire lines will stop working, and the states of the cells will return into their original states
+    if t == 8 and typeOfFireline == 1:
+        for col in range(smallest_width - 3, highest_width +3 ):
+            grid[smallest_row - 1][col] = list_original_values[x]
+            x = x + 1
+
+    # if chosen for constructed firelines, the constructed fire lines will be placed at day 6th
+    if t == 6 and typeOfFireline == 2:
+        for row in range(1,rows - 1):
+            for col in range(1, cols - 1):
+                # checking where the fire propogation front is (where the cells are burning (state 10))
+                if grid[row][col] == 10:
+                    grid[row-5][col] = 13
+                    grid[row-4][col-1] = 13
+                    grid[row-4][col+1] = 13
+                    grid[row-3][col+2] = 13
+                    grid[row-3][col-2] = 13
+    
 
     for row in range(1,rows-1):
         for col in range(1,cols-1):
@@ -134,8 +174,6 @@ for t in range(time):
             # keep track of how long a cell has been burning
             if grid[row][col] == 10:
                 timeBurning[row][col] += 1
-                # if t == 6:
-                #     grid[row-2][col] == 13
 
             # allocate Pden and Pveg values depending on the state of a cell (see state list above)
 
@@ -261,7 +299,7 @@ for t in range(time):
             # after 4 timestep, turn burning cell to dead cell
             # Want na 1 timestep zorgde ervoor dat het vuur echt snel doofde
             # Hier moet dus nog naar worden gekeken
-            if timeBurning[row][col] == 3:
+            if timeBurning[row][col] == 2:
                 grid[row][col] = 11
 
     #plt.figure()
