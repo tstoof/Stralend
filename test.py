@@ -1,3 +1,7 @@
+# Project Computational Science, University of Amsterdam
+# Group 'Stralend', Tamara Stoof, Emma Kok, Esmée van der Mark
+# 26 Jan 2021
+
 import matplotlib.pyplot as plt 
 import numpy as np
 import random
@@ -116,8 +120,6 @@ timeBurning = []
 for col in range(rows):
     timeBurning.append(list(gridline))
 
-# 1 is temporary fireline and 2 is the constructed fireline 
-typeOfFireline = 1
 
 # constants
 Ph = 0.58 #s/m
@@ -129,15 +131,21 @@ row_list = []
 col_list = []
 list_original_values = []
 
-# variable to decide which distance we want for our constructed fire lines ( 1 = 1.25 km, 2 = 2.50 km, 3 = 3.75 km)
-distanceConstructedFireline = 7
+# 1 is temporary fireline and 2 is the constructed fireline 
+typeOfFireline = 2
 
 # variable to decide whether the temporary firelines should be placed directly on the fire propagation front (1), behind the propagation front (2), or at a distance ahead of the fire
 # propagation front (3)
-distanceTemporaryFireline = 2
+distanceTemporaryFireline = 3
 
+# variable to decide which distance we want for our constructed fire lines ( 1 = 1.25 km, 2 = 2.50 km, 3 = 3.75 km)
+distanceConstructedFireline = 3
+
+# shape of the constructed fireline ( 1 = triangle shape, 2 = square shape, 3 = straight line shape)
+shapeConstructedFireline = 3
+
+# variable to keep track of the length of the fireline 
 lengthFireline = 0
-
 for t in range(time):
 
     # if chosen for temporary fire lines, at the 5th day the temporary fire lines will be placed (air bombing of water)
@@ -150,8 +158,6 @@ for t in range(time):
                     row_list.append(row)
                     col_list.append(col)
 
-        # print('col', col_list)
-        # print('row', row_list)
         # checking whether there is a propogation front at all
         if len(row_list) > 0 and len(col_list) > 0:
             # the smallest value of the row_list, is the most Northern place of the propogation front
@@ -178,8 +184,7 @@ for t in range(time):
                         list_original_values.append(grid[row][col])
                         # changing the state of the cells in state 13, which is the fire line state (which can not be burned)
                         grid[row][col] = 13
-                        # if grid[row][col] == 11:
-                        #     grid[row][col] = 13
+            
                         lengthFireline = lengthFireline + 1
 
             if distanceTemporaryFireline == 3:
@@ -236,68 +241,82 @@ for t in range(time):
             for col in range(1, cols - 1):
                 # checking where the fire propogation front is (where the cells are burning (state 10))
                 if grid[row][col] == 10:
-                    # constructing the fireline at distance '1', which is 1.25 km
-                    if distance == 1:
-                        grid[row-2][col] = 13
-                        grid[row-1][col-1] = 13
-                        grid[row-1][col+1] = 13
-                        grid[row][col+2] = 13
-                        grid[row][col-2] = 13
+                    # checking which shape the constructed fireline has to be 
+                    if shapeConstructedFireline == 1:
+                        # constructing the fireline at distance '1', which is 1.25 km
+                        if distanceConstructedFireline == 1:
+                            grid[row-2][col] = 13
+                            grid[row-2][col-1] = 13
+                            grid[row-2][col+1] = 13
+                            grid[row-1][col+1] = 13
+                            grid[row-1][col-1] = 13
+                            grid[row][col-2] = 13
+                            grid[row][col+2] = 13
 
-                    # constructing the fireline at distance '2', which is 2.50 km
-                    if distance == 2:
-                        grid[row-3][col] = 14
-                        grid[row-2][col-1] = 14
-                        grid[row-2][col+1] = 14
-                        grid[row-1][col+2] = 14
-                        grid[row-1][col-2] = 14
+                        # constructing the fireline at distance '2', which is 2.50 km
+                        if distanceConstructedFireline == 2:
+                            grid[row-3][col] = 13
+                            grid[row-3][col-1] = 13
+                            grid[row-3][col+1] = 13
+                            grid[row-2][col+1] = 13
+                            grid[row-2][col-1] = 13
+                            grid[row-1][col-2] = 13
+                            grid[row-1][col+2] = 13
 
-                    # constructing the fireline at distance '3', which is 3.75 km
-                    if distance == 3:
-                        grid[row-4][col] = 14
-                        grid[row-3][col-1] = 14
-                        grid[row-3][col+1] = 14
-                        grid[row-2][col+2] = 14
-                        grid[row-2][col-2] = 14
+                        # constructing the fireline at distance '3', which is 3.75 km
+                        if distanceConstructedFireline == 3:
+                            grid[row-4][col] = 13
+                            grid[row-4][col-1] = 13
+                            grid[row-4][col+1] = 13
+                            grid[row-3][col+1] = 13
+                            grid[row-3][col-1] = 13
+                            grid[row-2][col-2] = 13
+                            grid[row-2][col+2] = 13
+                            
+                    if shapeConstructedFireline == 2:
+                        if distanceConstructedFireline == 1:
+                            grid[row-2][col] = 13
+                            grid[row-2][col-1] = 13
+                            grid[row-2][col+1] = 13
+                            grid[row-2][col+2] = 13
+                            grid[row-2][col-2] = 13
+                            grid[row-1][col-2] = 13
+                            grid[row-1][col+2] = 13
 
-                    if distance == 4:
-                        grid[row-2][col] = 14
-                        grid[row-2][col-1] = 14
-                        grid[row-2][col+1] = 14
-                        grid[row-2][col+2] = 14
-                        grid[row-2][col-2] = 14
-                        grid[row-1][col+2] = 14
-                        grid[row-1][col-2] = 14
+                        if distanceConstructedFireline == 2:
+                            grid[row-3][col] = 13
+                            grid[row-3][col-1] = 13
+                            grid[row-3][col+1] = 13
+                            grid[row-3][col+2] = 13
+                            grid[row-3][col-2] = 13
+                            grid[row-2][col-2] = 13
+                            grid[row-2][col+2] = 13
 
-                    if distance == 5:
-                        grid[row-3][col] = 14
-                        grid[row-3][col-1] = 14
-                        grid[row-3][col+1] = 14
-                        grid[row-3][col+2] = 14
-                        grid[row-3][col-2] = 14
-                        grid[row-2][col+2] = 14
-                        grid[row-2][col-2] = 14
+                        if distanceConstructedFireline == 3:
+                            grid[row-4][col] = 13
+                            grid[row-4][col-1] = 13
+                            grid[row-4][col+1] = 13
+                            grid[row-4][col+2] = 13
+                            grid[row-4][col-2] = 13
+                            grid[row-3][col-2] = 13
+                            grid[row-3][col+2] = 13
 
-                    if distance == 6:
-                        grid[row-4][col] = 14
-                        grid[row-4][col-1] = 14
-                        grid[row-4][col+1] = 14
-                        grid[row-4][col+2] = 14
-                        grid[row-4][col-2] = 14
-                        grid[row-3][col+2] = 14
-                        grid[row-3][col-2] = 14
+                    if shapeConstructedFireline == 3:
+                        if distanceConstructedFireline == 1:
+                            grid[row-2][col] = 13
+                            grid[row-2][col-1] = 13
+                            grid[row-2][col+1] = 13
 
-                    if distance == 7:
-                        grid[row-3][col] = 14
-                        grid[row-2][col] = 14
-                        grid[row-2][col-1] = 14
-                        grid[row-2][col+1] = 14
-                        grid[row-1][col+2] = 14
-                        grid[row-1][col-2] = 14
-                        grid[row][col+2] = 14
-                        grid[row]
+                        if distanceConstructedFireline == 2:
+                            grid[row-3][col] = 13
+                            grid[row-3][col-1] = 13
+                            grid[row-3][col+1] = 13
 
-    
+                        if distanceConstructedFireline == 3:
+                            grid[row-4][col] = 13
+                            grid[row-4][col-1] = 13
+                            grid[row-4][col+1] = 13
+
 
     for row in range(1,rows-1):
         for col in range(1,cols-1):
@@ -427,10 +446,8 @@ for t in range(time):
                     grid[row][col] = 10   
                     timeBurning[row][col] += 1                                        
 
-            # after 4 timestep, turn burning cell to dead cell
-            # Want na 1 timestep zorgde ervoor dat het vuur echt snel doofde
-            # Hier moet dus nog naar worden gekeken
-            if timeBurning[row][col] == 2:
+            # after 2 timesteps (and if the cell is not a fireline), a burning cell will turn into a burnt cell
+            if timeBurning[row][col] == 2 and grid[row][col] != 13:
                 grid[row][col] = 11
 
     #plt.figure()
