@@ -1,0 +1,27 @@
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import colors
+
+# dit bovenste staat nog in de loop
+    #plt.figure()
+    cmap = colors.ListedColormap(['aqua', 'goldenrod', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'olivedrab', 'green', 'limegreen', 'darkgreen', 'orangered', 'red', 'dimgray', 'black'])
+    colormap = plt.imshow(grid, cmap= cmap)
+    cbar = plt.colorbar(colormap)
+    cbar.set_ticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+    cbar.set_ticklabels(["Water", "Fuel (Sparse/-0.3)", "Fuel (Sparse/0)", "Fuel (Sparse/0.4)", "Fuel (Normal/-0.3)", "Fuel (Normal/0)", 
+                    "Fuel(Normal/0.4)", "Fuel (Dense/-0.3)", "Fuel (Dense/0)", "Fuel (Dense/0.4)", "Burning", "Burnt", "City", "Fireline"])
+    plt.draw()
+    plt.pause(0.2)
+
+    # closing the graphs
+    plt.clf()
+
+# dit is dan wat er onderaan nog staat 
+plt.figure
+cmap = colors.ListedColormap(['aqua', 'goldenrod', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'olivedrab', 'green', 'limegreen', 'darkgreen', 'orangered', 'red', 'dimgray'])
+colormap = plt.imshow(grid, cmap= cmap)
+cbar = plt.colorbar(colormap)
+cbar.set_ticks([0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+cbar.set_ticklabels(["Water", "Fuel (Sparse/-0.3)", "Fuel (Sparse/0)", "Fuel (Sparse/0.4)", "Fuel (Normal/-0.3)", "Fuel (Normal/0)", 
+                    "Fuel(Normal/0.4)", "Fuel (Dense/-0.3)", "Fuel (Dense/0)", "Fuel (Dense/0.4)", "Burning", "Burnt", "City"])
+plt.show()
