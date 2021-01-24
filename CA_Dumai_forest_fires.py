@@ -93,32 +93,21 @@ for row in range(rows):
 
 
 # create a gridline with only zeros
+# will be used in loop to create grid of only zeros
 gridline = []
 for row in range(cols):
     gridline.append(0)
-
-# use gridline to make a grid of only zeros
-timeBurning = []
-for col in range(rows):
-    timeBurning.append(list(gridline))
-
 
 # initialize lists 
 row_list = []
 col_list = []
 list_original_values = []
 
-# choose to use fire line or not 
-# (used only for filename creation):
-# 0 = fire lines on
-# 1 = fire lines off
-noFireLines = 1
-
 # choose fire line:
 # 0 = no fire lines
 # 1 = temporary fireline 
 # 2 = the constructed fireline 
-typeOfFireline = 1
+typeOfFireline = 2
 
 # choose distance of temporay fire line:
 # 1 = directly on the fire propagation front
@@ -175,7 +164,14 @@ for repeat in range(repeats):
     grid[68][39] = 10
     grid[68][40] = 10
     grid[0][0] = 13
-    
+
+    # create clean grid of only zeros for every new simulation 
+    # timeBurning will keep track how long a cell
+    # has been burning.
+    timeBurning = []
+    for col in range(rows):
+        timeBurning.append(list(gridline))
+        
     # simulation has a length of t days
     for t in range(time):
         
@@ -491,35 +487,35 @@ for repeat in range(repeats):
                 # relative to cell and the North
                 if grid[row+1][col-1] == 10:
                     theta = 45
-                    Pburn_1 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg) 
+                    Pburn_1 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
 
                 if grid[row+1][col+1] == 10:
                     theta = 45      
-                    Pburn_2 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_2 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
                     
                 if grid[row+1][col] == 10:
                     theta = 0
-                    Pburn_3 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_3 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
 
                 if grid[row][col-1] == 10:
                     theta = 90
-                    Pburn_4 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_4 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
                     
                 if grid[row][col+1] == 10:          
                     theta = 90
-                    Pburn_5 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_5 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
                 
                 if grid[row-1][col-1] == 10:                   
                     theta = 135
-                    Pburn_6 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_6 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
 
                 if grid[row-1][col+1] == 10:
                     theta = 135
-                    Pburn_7 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_7 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
 
                 if grid[row-1][col] == 10:
                     theta = 180
-                    Pburn_8 = burning_probability(theta, V, c2, c1, Ph, Pden, Pveg)
+                    Pburn_8 = burning_probability(theta, V, c1, c2, Ph, Pden, Pveg)
 
 
                 # Pburn = 0 if neighbour is not burning
@@ -552,7 +548,8 @@ for repeat in range(repeats):
                 # cell can only catch fire if state is 1-9
                 # chance of neighbour setting cell on fire
                 # is independent of other neighbour cells
-                if (grid[row][col] != 0 and  grid[row][col] != 10 and grid[row][col] != 11 and grid[row][col] != 13) and \
+                if t>=1 and (grid[row][col] != 0 and  grid[row][col] != 10 and grid[row][col] != 11 and grid[row][col] != 13 \
+                    and grid[row][col] != 12) and \
                     (np.random.uniform() < Pburn_1 or np.random.uniform() < Pburn_2 or np.random.uniform() < Pburn_3 or\
                     np.random.uniform() < Pburn_4 or np.random.uniform() < Pburn_5 or np.random.uniform() < Pburn_6 or \
                     np.random.uniform() < Pburn_7 or np.random.uniform() < Pburn_8):
@@ -598,46 +595,45 @@ for repeat in range(repeats):
 
     
     # filenames for storing data
-    if noFireLines == 0:
- 
-        if typeOfFireline == 1 and distanceTemporaryFireline == 1:
-            filename = "temporary_distance_1"
-
-        if typeOfFireline == 1 and distanceTemporaryFireline == 2:
-            filename = "temporary_distance_2"
-
-        if typeOfFireline == 1 and distanceTemporaryFireline == 3:
-            filename = "temporary_distance_3"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 1:
-            filename = "constructed_distance_1_shape_1"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 2:
-            filename = "constructed_distance_1_shape_2"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 3:
-            filename = "constructed_distance_1_shape_3"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 1:
-            filename = "constructed_distance_2_shape_1"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 2:
-            filename = "constructed_distance_2_shape_2"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 3:
-            filename = "constructed_distance_2_shape_3"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 1:
-            filename = "constructed_distance_3_shape_1"
-            
-        if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 2:    
-            filename = "constructed_distance_3_shape_2"
-
-        if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 3:          
-            filename = "constructed_distance_3_shape_3"        
-
-    if noFireLines == 1:
+    if typeOfFireline == 0:
         filename = "noFireLines"
+
+    if typeOfFireline == 1 and distanceTemporaryFireline == 1:
+        filename = "temporary_distance_1"
+
+    if typeOfFireline == 1 and distanceTemporaryFireline == 2:
+        filename = "temporary_distance_2"
+
+    if typeOfFireline == 1 and distanceTemporaryFireline == 3:
+        filename = "temporary_distance_3"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 1:
+        filename = "constructed_distance_1_shape_1"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 2:
+        filename = "constructed_distance_1_shape_2"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 1 and shapeConstructedFireline == 3:
+        filename = "constructed_distance_1_shape_3"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 1:
+        filename = "constructed_distance_2_shape_1"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 2:
+        filename = "constructed_distance_2_shape_2"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 2 and shapeConstructedFireline == 3:
+        filename = "constructed_distance_2_shape_3"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 1:
+        filename = "constructed_distance_3_shape_1"
+        
+    if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 2:    
+        filename = "constructed_distance_3_shape_2"
+
+    if typeOfFireline == 2 and distanceConstructedFireline == 3 and shapeConstructedFireline == 3:          
+        filename = "constructed_distance_3_shape_3"        
+
 
 # only use if you want to change the data files
 # and append new data values to file

@@ -139,10 +139,10 @@ temp_most = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), \
     'Fraction burned': temporary1, 'Effectiveness': np.repeat('Most effective', 150)})
 
 cons_most = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), \
-    'Fraction burned': dis1_shape2, 'Effectiveness': np.repeat('Most effective', 150)})
+    'Fraction burned': dis1_shape1, 'Effectiveness': np.repeat('Most effective', 150)})
 
 temp_least = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), \
-    'Fraction burned': temporary3, 'Effectiveness': np.repeat('Least effective', 150)})
+    'Fraction burned': temporary2, 'Effectiveness': np.repeat('Least effective', 150)})
 
 cons_least = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), \
     'Fraction burned': dis3_shape3, 'Effectiveness': np.repeat('Least effective', 150)})

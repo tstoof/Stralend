@@ -151,9 +151,9 @@ stat, p= stats.shapiro(noFireLine)
 stats.kruskal(constructed_distance_1_shape_1,constructed_distance_1_shape_2, constructed_distance_1_shape_3)
 
 # testing difference between shape 1 and shape 2
-# p < 0.05
-# shape 2 is more efficient than shape 1
-stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_1_shape_2, alternative='greater')
+# p > 0.05
+# no significant difference between shape 1 and 2
+stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_1_shape_2, alternative='two-sided')
 
 # testing difference between shape 1 and shape 3
 # p < 0.05
@@ -199,23 +199,23 @@ stats.mannwhitneyu(constructed_distance_2_shape_2, constructed_distance_2_shape_
 stats.kruskal(constructed_distance_3_shape_1,constructed_distance_3_shape_2, constructed_distance_3_shape_3)
 
 # testing difference between shape 1 and shape 2
-# p > 0.05
+# p < 0.05
 # shape 1 is more efficient than shape 2
 stats.mannwhitneyu(constructed_distance_3_shape_1, constructed_distance_3_shape_2, alternative='less')
 
 # testing difference between shape 1 and shape 3
-# p > 0.05
+# p < 0.05
 # shape 1 is more efficient than shape 3
 stats.mannwhitneyu(constructed_distance_3_shape_1, constructed_distance_3_shape_3, alternative='less')
 
 # testing difference between shape 2 and shape 3
-# p > 0.05
+# p < 0.05
 # shape 2 is more efficient than shape 3
 stats.mannwhitneyu(constructed_distance_3_shape_2, constructed_distance_3_shape_3, alternative='less')
 
 """
     Summary:
-    For constructed fire lines at distance 1, the best shapes are: 2 > 1 > 3
+    For constructed fire lines at distance 1, the best shapes are: 1 & 2 > 3 (no significant difference between 1 and 2)
     For constructed fire lines at distance 2, the best shapes are: 1 > 2 > 3
     For constructed fire lines at distance 3, the best shapes are: 1 > 2 > 3 
 """
@@ -238,14 +238,14 @@ stats.mannwhitneyu(temporary_distance_1, temporary_distance_2, alternative="less
 stats.mannwhitneyu(temporary_distance_1, temporary_distance_3, alternative="less")
 
 # testing difference between distance 2 and 3
-# p < 0.05
-# distance 2 is more efficient than distance 3
-stats.mannwhitneyu(temporary_distance_2, temporary_distance_3, alternative="less")
+# p > 0.05
+# no significant difference between distance 2 and 3
+stats.mannwhitneyu(temporary_distance_2, temporary_distance_3, alternative="two-sided")
 
 
 """
     Summary:
-    For temporary fire lines, the best distances are: 1 > 2 > 3
+    For temporary fire lines, the best distances are: 1 > 2 & 3 ( no significant difference between 2 and 3)
 """
 
 # constants: constructed fire lines, shape 1
@@ -257,13 +257,13 @@ stats.kruskal(constructed_distance_1_shape_1, constructed_distance_2_shape_1,con
 
 # testing difference between distance 1 and 2
 # p < 0.05
-# distance 2 is more efficient than distance 1
-stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_2_shape_1, alternative="greater")
+# distance 1 is more efficient than distance 2
+stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_2_shape_1, alternative="less")
 
 # testing difference between distance 1 and 3
 # p < 0.05
-# distance 3 is more efficient than distance 1
-stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_3_shape_1, alternative="greater")
+# distance 1 is more efficient than distance 3
+stats.mannwhitneyu(constructed_distance_1_shape_1, constructed_distance_3_shape_1, alternative="less")
 
 # testing difference between distance 2 and 3
 # p < 0.05
@@ -302,9 +302,9 @@ stats.mannwhitneyu(constructed_distance_2_shape_2, constructed_distance_3_shape_
 stats.kruskal(constructed_distance_1_shape_3, constructed_distance_2_shape_3,constructed_distance_3_shape_3)
 
 # testing difference between distance 1 and 2
-# p < 0.05
-# distance 1 is more efficient than distance 2
-stats.mannwhitneyu(constructed_distance_1_shape_3, constructed_distance_2_shape_3, alternative="less")
+# p > 0.05
+# no significant difference between distance 1 and 2
+stats.mannwhitneyu(constructed_distance_1_shape_3, constructed_distance_2_shape_3, alternative="two-sided")
 
 # testing difference between distance 1 and 3
 # p < 0.05
@@ -319,9 +319,9 @@ stats.mannwhitneyu(constructed_distance_2_shape_3, constructed_distance_3_shape_
 
 """
     Summary:
-    For constructed fire lines of shape 1, the best distances are: 2 > 3 > 1
+    For constructed fire lines of shape 1, the best distances are: 1 > 2 > 3 
     For constructed fire lines of shape 2, the best distances are: 1 > 2 > 3
-    For constructed fire lines of shape 3, the best distances are: 1 > 2 > 3
+    For constructed fire lines of shape 3, the best distances are: 1 & 2 > 3 (no significant difference between 1 and 2)
 """
 
 # constants: distance 1, temporary lines
@@ -330,72 +330,70 @@ stats.mannwhitneyu(constructed_distance_2_shape_3, constructed_distance_3_shape_
 # testing difference between temporary fire line and
 # constructed fire line of shape 1 at distance 1
 # p < 0.05
-# constructed fire lines with shape 1 < temporary fire line
+# constructed fire lines with shape 1 worse than temporary fire line
 stats.mannwhitneyu(constructed_distance_1_shape_1, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 2 at distance 1
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_1_shape_2, temporary_distance_1, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line
+stats.mannwhitneyu(constructed_distance_1_shape_2, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 3 at distance 1
 # p < 0.05
-# constructed fire lines with shape 3 < temporary fire line
+# constructed fire lines with shape 3 worse than temporary fire line
 stats.mannwhitneyu(constructed_distance_1_shape_3, temporary_distance_1, alternative="greater")
 
 
-# constants: distance 2, temporary lines
+# constants: distance 2, temporary lines distance 1
 # variables: constructed fire line shapes
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 1 at distance 2
 # p < 0.05
-# constructed fire lines with shape 1 > temporary fire line
-stats.mannwhitneyu(constructed_distance_2_shape_1, temporary_distance_2, alternative="less")
+# constructed fire lines with shape 1 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_2_shape_1, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 2 at distance 2
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_2_shape_2, temporary_distance_2, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_2_shape_2, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 3 at distance 2
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_2_shape_3, temporary_distance_2, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_2_shape_3, temporary_distance_1, alternative="greater")
 
 
-# constants: distance 2, temporary lines
+# constants: distance 2, temporary lines distance 1
 # variables: constructed fire line shapes
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 1 at distance 3
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_3_shape_1, temporary_distance_3, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_3_shape_1, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 2 at distance 3
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_3_shape_2, temporary_distance_3, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_3_shape_2, temporary_distance_1, alternative="greater")
 
 # testing difference between temporary fire line and
 # constructed fire line of shape 3 at distance 3
 # p < 0.05
-# constructed fire lines with shape 2 > temporary fire line
-stats.mannwhitneyu(constructed_distance_3_shape_3, temporary_distance_3, alternative="less")
+# constructed fire lines with shape 2 worse than temporary fire line at distance 1
+stats.mannwhitneyu(constructed_distance_3_shape_3, temporary_distance_1, alternative="greater")
 
 
 """
     Summary:
-    At distance 1, the constructed fire lines with shapes 2 > temporary lines.
-    At distance 1, the temporary lines > constructed lines of shape 1 and 3
-    At distance 2, the constructed fire lines of all shapes > temporary lines.
-    At distance 3, the constructed fire lines of all shapes > temporary lines.
+    Comparing constructed fire lines to the best temporary fire lines (i.e. temporary fire line at distance 1):
+    Temporary fire lines at distance 1 is better than all constructed fire lines, no matter their distance or shape
 """
 
 # constants: no fire lines, distance 1
@@ -465,16 +463,17 @@ stats.mannwhitneyu(noFireLine, temporary_distance_1, alternative="greater")
 
 # testing difference between no fire lines and distance 2
 # p > 0.05
-# no fire is worse than temporary fire lines at distance 2
-stats.mannwhitneyu(noFireLine, temporary_distance_2, alternative="greater")
+# no significant difference between no fire lines and distance 2
+stats.mannwhitneyu(noFireLine, temporary_distance_2, alternative="two-sided")
 
-# testing difference between no fire lines and distance 2
-# p < 0.05
-# no fire is worse than temporary fire lines at distance 3
-stats.mannwhitneyu(noFireLine, temporary_distance_3, alternative="greater")
+# testing difference between no fire lines and distance 3
+# p > 0.05
+# no significant difference between no fire lines and distance 3
+stats.mannwhitneyu(noFireLine, temporary_distance_3, alternative="two-sided")
 
 """
     Summary:
     Constructed Fire lines are always better than no fire lines
-    Temporary fire lines are always better than no fire lines
+    Temporary fire lines at distance 1 are better than no fire lines
+    Temporary fire lines at distance 2 and 3 do not significantly differ from no fire lines
 """
