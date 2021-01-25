@@ -73,25 +73,26 @@ with open("constructed_distance_3_shape_3.txt") as f:
 
 # construct data frames consisting of constructed 
 # fire lines variables used to create figure 6 of the poster
-k = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape1, 'Shape': np.repeat('1', 150)})
-l = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape2, 'Shape': np.repeat('2', 150)})
-m = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape3, 'Shape': np.repeat('3', 150)})
+Constr_d1_s1 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape1, 'Shape': np.repeat('1', 150)})
+Constr_d1_s2 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape2, 'Shape': np.repeat('2', 150)})
+Constr_d1_s3 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape3, 'Shape': np.repeat('3', 150)})
 
-o = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape1, 'Shape': np.repeat('1', 150)})
-p = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape2, 'Shape': np.repeat('2', 150)})
-q = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape3, 'Shape': np.repeat('3', 150)})
+Constr_d2_s1 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape1, 'Shape': np.repeat('1', 150)})
+Constr_d2_s2 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape2, 'Shape': np.repeat('2', 150)})
+Constr_d2_s3 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape3, 'Shape': np.repeat('3', 150)})
 
-r = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape1, 'Shape': np.repeat('1', 150)})
-s = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape2, 'Shape': np.repeat('2', 150)})
-t = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape3, 'Shape': np.repeat('3', 150)})
+Constr_d3_s1 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape1, 'Shape': np.repeat('1', 150)})
+Constr_d3_s2 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape2, 'Shape': np.repeat('2', 150)})
+Constr_d3_s3 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape3, 'Shape': np.repeat('3', 150)})
 
 # combine data frames so it can be used in the barplot 
-df2 = k.append(l).append(m).append(o).append(p).append(q).append(r).append(s).append(t)
+df1 = Constr_d1_s1.append(Constr_d1_s2).append(Constr_d1_s3).append(Constr_d2_s1).append(Constr_d2_s2).\
+    append(Constr_d2_s3).append(Constr_d3_s1).append(Constr_d3_s2).append(Constr_d3_s3)
 
 # create the barplot of figure 6 (in the poster)
 plt.figure(1)
 sns.barplot( x = 'Distance', y = 'Fraction burned', hue = 'Shape', \
-    saturation = 1, palette = 'husl', data = df2, capsize = .1, \
+    saturation = 1, palette = 'husl', data = df1, capsize = .1, \
     linewidth = 0.5, errwidth = 1.5, ci = "sd")\
     .set_title('Efficiency of the nine different constructed firelines', fontweight = 'bold')
 
@@ -102,17 +103,17 @@ sns.barplot( x = 'Distance', y = 'Fraction burned', hue = 'Shape', \
 
 # construct data frames consisting of temporary
 # fire lines variables used to create Figure 7 of the poster
-u = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
+temporary_1 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
     np.repeat('Directly on PF' , 150), 'Fraction burned': temporary1})
 
-v = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
+temporary_2 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
     np.repeat('Behind PF' , 150), 'Fraction burned': temporary2})
 
-w = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
+temporary_3 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
     np.repeat('Distance ahead of PF' , 150), 'Fraction burned': temporary3})
 
 # combine data frames so it can be used in the boxplot
-df3 = u.append(v).append(w)
+df2 = temporary_1.append(temporary_2).append(temporary_3)
 
 # make box lines black and median red
 PROPS = {
@@ -124,7 +125,7 @@ PROPS = {
 # create the boxplot of figure 7 (in the poster)
 plt.figure(2)
 sns.boxplot( x = 'Location of temporary fireline relative to PF',\
-    y = 'Fraction burned', data = df3, palette = 'husl', linewidth = 1.2,\
+    y = 'Fraction burned', data = df2, palette = 'husl', linewidth = 1.2,\
     **PROPS).set_title('Efficiency of temporary firelines at different locations relative to PF',\
     fontweight = 'bold')
 
