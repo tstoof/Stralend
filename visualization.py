@@ -3,8 +3,8 @@
 # group: Stralend
 # date: 26-01-2021
 
-# this file contains the codes that create 
-# figures 6, 7 and 8 as shown in the poster and report
+# this file contains the codes that create all
+# figures shown in the poster and report
 
  
 import statistics
@@ -66,103 +66,84 @@ with open("constructed_distance_3_shape_3.txt") as f:
     dis3_shape3 = json.load(f)
 
 
-"""
-    First plot; a barplot of all the constructed firelines (incl. all shapes and distances).
-    Corresponds to Figure 6 of the poster.
-"""
+###############################################################################################################################
+# # first violinplot, comparing the fraction burned of the constructed (dis2/shape1), temporary (placed directly on the propogation front) and no firelines
 
-# construct data frames consisting of constructed 
-# fire lines variables used to create figure 6 of the poster
-Constr_d1_s1 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape1, 'Shape': np.repeat('1', 150)})
-Constr_d1_s2 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape2, 'Shape': np.repeat('2', 150)})
-Constr_d1_s3 = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape3, 'Shape': np.repeat('3', 150)})
+# g = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), 'Fraction burned': dis1_shape2})
+# h = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), 'Fraction burned': temporary1})
+# i = pd.DataFrame({ 'Type of fireline': np.repeat('No fireline' , 150), 'Fraction burned': noFirelines})
 
-Constr_d2_s1 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape1, 'Shape': np.repeat('1', 150)})
-Constr_d2_s2 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape2, 'Shape': np.repeat('2', 150)})
-Constr_d2_s3 = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape3, 'Shape': np.repeat('3', 150)})
+# # dataframe to use for the violinplot 
+# plt.figure(1)
+# df1 = g.append(h).append(i)
 
-Constr_d3_s1 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape1, 'Shape': np.repeat('1', 150)})
-Constr_d3_s2 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape2, 'Shape': np.repeat('2', 150)})
-Constr_d3_s3 = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape3, 'Shape': np.repeat('3', 150)})
+# # making the box lines black, with exception of the median which will be red
+# PROPS = {
+#     'boxprops':{'facecolor':'none', 'edgecolor':'black'},
+#     'medianprops':{'color':'red'},
+#     'whiskerprops':{'color':'black'},
+#     'capprops':{'color':'black'}}
 
-# combine data frames so it can be used in the barplot 
-df1 = Constr_d1_s1.append(Constr_d1_s2).append(Constr_d1_s3).append(Constr_d2_s1).append(Constr_d2_s2).\
-    append(Constr_d2_s3).append(Constr_d3_s1).append(Constr_d3_s2).append(Constr_d3_s3)
+# sns.violinplot( x = 'Type of fireline', y = 'Fraction burned', saturation = 1, linewidth = 1.75, palette = 'husl', data = df1).set_title('Efficiency of the best constructed and temporary firelines (compared to no firelines)')
 
-# create the barplot of figure 6 (in the poster)
-plt.figure(1)
-sns.barplot( x = 'Distance', y = 'Fraction burned', hue = 'Shape', \
-    saturation = 1, palette = 'husl', data = df1, capsize = .1, \
-    linewidth = 0.5, errwidth = 1.5, ci = "sd")\
-    .set_title('Efficiency of the nine different constructed firelines', fontweight = 'bold')
 
-"""
-    Second plot; a boxplot of the three temporary fireline distances.
-    Corresponds to Figure 7 of the poster.
-"""
+###############################################################################################################################
+# Second plot, which is a barplot of all the constructed firelines (all the shapes and distances)
 
-# construct data frames consisting of temporary
-# fire lines variables used to create Figure 7 of the poster
-temporary_1 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
-    np.repeat('Directly on PF' , 150), 'Fraction burned': temporary1})
+k = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape1, 'Shape': np.repeat('1', 150)})
+l = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape2, 'Shape': np.repeat('2', 150)})
+m = pd.DataFrame({ 'Distance': np.repeat('1.25 km', 150), 'Fraction burned': dis1_shape3, 'Shape': np.repeat('3', 150)})
 
-temporary_2 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
-    np.repeat('Behind PF' , 150), 'Fraction burned': temporary2})
+o = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape1, 'Shape': np.repeat('1', 150)})
+p = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape2, 'Shape': np.repeat('2', 150)})
+q = pd.DataFrame({ 'Distance': np.repeat('2.50 km', 150), 'Fraction burned': dis2_shape3, 'Shape': np.repeat('3', 150)})
 
-temporary_3 = pd.DataFrame({ 'Location of temporary fireline relative to PF': \
-    np.repeat('Distance ahead of PF' , 150), 'Fraction burned': temporary3})
+r = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape1, 'Shape': np.repeat('1', 150)})
+s = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape2, 'Shape': np.repeat('2', 150)})
+t = pd.DataFrame({ 'Distance': np.repeat('3.75 km', 150), 'Fraction burned': dis3_shape3, 'Shape': np.repeat('3', 150)})
 
-# combine data frames so it can be used in the boxplot
-df2 = temporary_1.append(temporary_2).append(temporary_3)
+# dataframe combining all the information, which will be used in the barplot 
+plt.figure(2)
+df2 = k.append(l).append(m).append(o).append(p).append(q).append(r).append(s).append(t)
 
-# make box lines black and median red
+sns.barplot( x = 'Distance', y = 'Fraction burned', hue = 'Shape', saturation = 1, palette = 'husl', data = df2, capsize = .1, linewidth = 0.5, errwidth = 1.5, ci = "sd").set_title('Efficiency of the nine different constructed firelines')
+
+
+####################################################################################################################
+# third plot, which is a boxplot combining the three temporary fireline distances 
+
+u = pd.DataFrame({ 'Location of temporary fireline relative to PF': np.repeat('Directly on PF' , 150), 'Fraction burned': temporary1})
+v = pd.DataFrame({ 'Location of temporary fireline relative to PF': np.repeat('Behind PF' , 150), 'Fraction burned': temporary2})
+w = pd.DataFrame({ 'Location of temporary fireline relative to PF': np.repeat('Distance ahead of PF' , 150), 'Fraction burned': temporary3})
+
+# dataframe combining all the information, which will be used in the boxplot 
+df3 = u.append(v).append(w)
+
+# making the box lines black, with exception of the median which will be red
 PROPS = {
     'boxprops':{'facecolor':'none', 'edgecolor':'black'},
     'medianprops':{'color':'red'},
     'whiskerprops':{'color':'black'},
     'capprops':{'color':'black'}}
 
-# create the boxplot of figure 7 (in the poster)
-plt.figure(2)
-sns.boxplot( x = 'Location of temporary fireline relative to PF',\
-    y = 'Fraction burned', data = df2, palette = 'husl', linewidth = 1.2,\
-    **PROPS).set_title('Efficiency of temporary firelines at different locations relative to PF',\
-    fontweight = 'bold')
+plt.figure(3)
+sns.boxplot( x = 'Location of temporary fireline relative to PF', y = 'Fraction burned', data = df3, palette = 'husl', linewidth = 1.2,**PROPS).set_title('Fraction burned, using temporary firelines at different locations relative to PF')
 
-"""
-    Third plot; a barplot of the best and worst mitigation strategies, and the situation without firelines.
-    Corresponds to Figure 8 of the poster.
-"""
 
-# construct data frames consisting of best and worst constructed and temporary
-# fire lines and the NoFireLines variables used to create Figure 8 of the poster
-temp_most = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), \
-    'Fraction burned': temporary1, 'Effectiveness': np.repeat('Most effective', 150)})
+#############################################################################################################################################
+# fourth plot, which is a barplot combining the best and worst mitigation strategies and also comparing it to the situation which has no fireline
 
-cons_most = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), \
-    'Fraction burned': dis1_shape1, 'Effectiveness': np.repeat('Most effective', 150)})
+x = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), 'Fraction burned': temporary1, 'situation': np.repeat('best', 150)})
+y = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), 'Fraction burned': dis1_shape2, 'situation': np.repeat('best', 150)})
+z = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), 'Fraction burned': temporary3, 'situation': np.repeat('worst', 150)})
+zz = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), 'Fraction burned': dis3_shape3, 'situation': np.repeat('worst', 150)})
 
-temp_least = pd.DataFrame({ 'Type of fireline': np.repeat('Temporary' , 150), \
-    'Fraction burned': temporary2, 'Effectiveness': np.repeat('Least effective', 150)})
+normal = pd.DataFrame({ 'Type of fireline': np.repeat('None' , 150), 'Fraction burned': noFirelines, 'situation': np.repeat('normal', 150)})
 
-cons_least = pd.DataFrame({ 'Type of fireline': np.repeat('Constructed' , 150), \
-    'Fraction burned': dis3_shape3, 'Effectiveness': np.repeat('Least effective', 150)})
-
-no_firelines_compared_with_most = pd.DataFrame({ 'Type of fireline': np.repeat('None' , 150), \
-    'Fraction burned': noFirelines, 'Effectiveness': np.repeat('Most effective', 150)})
-
-no_firelines_compared_with_least = pd.DataFrame({ 'Type of fireline': np.repeat('None' , 150), \
-    'Fraction burned': noFirelines, 'Effectiveness': np.repeat('Least effective', 150)})
-
-# combine data frames so it can be used in the boxplot
-df5 = cons_most.append(temp_most).append(cons_least).append(temp_least)\
-    .append(no_firelines_compared_with_most).append(no_firelines_compared_with_least)
-
-# create barplots of Figure 8 (of the poster)
-g = sns.catplot( x = 'Type of fireline', y = 'Fraction burned', col = 'Effectiveness', \
-    data = df5, palette = 'husl', capsize = .1, kind = 'bar', height = 5, aspect = 0.8, ci = "sd")
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('The most and least effective mitigation strategies compared to no fire lines at all', \
-    fontsize = 15, fontweight = 'bold')
-
+# dataframe combining all the information, which will be used in a barplot 
+df4 = x.append(y).append(z).append(zz).append(normal)
+plt.figure(4)
+sns.barplot( x = 'situation', y = 'Fraction burned', hue = 'Type of fireline', data = df4, palette = 'husl', linewidth = 1.2, ci = 'sd').set_title('Fraction burned, comparing best and worst mitigation strategies')
 plt.show()
+
+
