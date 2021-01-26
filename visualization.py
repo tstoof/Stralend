@@ -73,7 +73,7 @@ sns.set_style("whitegrid")
 
 """
     First plot; a barplot of all the constructed firelines (incl. all shapes and distances).
-    Corresponds to Figure 6 of the poster.
+    Corresponds to Figure 6 of the poster. Figure number does not correspond to the figure number in the report.
 """
 
 # construct data frames consisting of constructed 
@@ -103,7 +103,7 @@ sns.barplot( x = 'Distance', y = 'Fraction burned', hue = 'Shape', \
 
 """
     Second plot; a boxplot of the three temporary fireline distances.
-    Corresponds to Figure 7 of the poster.
+    Corresponds to Figure 7 of the poster. Figure number does not correspond to the figure number in the report.
 """
 
 # construct data frames consisting of temporary
@@ -135,8 +135,8 @@ sns.boxplot( x = 'Location of temporary fireline relative to PF',\
     fontweight = 'bold')
 
 """
-    Third plot; a barplot of the best and worst mitigation strategies, and the situation without firelines.
-    Corresponds to Figure 8 of the poster.
+    Third plot; a barplot of the best mitigation strategies, and the situation without firelines.
+    Corresponds to Figure 8 of the poster. Figure number does not correspond to the figure number in the report.
 """
 
 # construct data frames consisting of best and worst constructed and temporary
@@ -165,7 +165,13 @@ sns.barplot( x = 'Type of fireline',\
     fontweight = 'bold', fontsize = 15)
 
 
+"""
+    Fourth plot; a barplot of the worst mitigation strategies, and the situation without firelines.
+    Corresponds to Figure 4b of the poster.
+"""
+
 plt.figure(4)
+
 # combine data frames so it can be used in the barplot to compare the least effective mitigation strategies to no fire lines at all
 df4 = temp_least.append(cons_least).append(no_firelines)
 
@@ -174,4 +180,3 @@ sns.barplot( x = 'Type of fireline',\
     fontweight = 'bold', fontsize = 15)
 
 plt.show()
-
